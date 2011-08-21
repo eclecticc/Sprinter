@@ -225,6 +225,33 @@ const short temptable_5[NUMTEMPS_5][2] = {
 };
 #endif
 
+#if (THERMISTORHEATER == 6) || (THERMISTORBED == 6) //MakerGear thermistor
+
+#define NUMTEMPS_6 20
+short temptable_6[NUMTEMPS_6][2] = {
+   {1, 821},
+   {54, 252},
+   {107, 207},
+   {160, 182},
+   {213, 165},
+   {266, 152},
+   {319, 141},
+   {372, 131},
+   {425, 123},
+   {478, 115},
+   {531, 107},
+   {584, 100},
+   {637, 93},
+   {690, 86},
+   {743, 78},
+   {796, 70},
+   {849, 60},
+   {902, 49},
+   {955, 34},
+   {1008, 3}
+};
+#endif
+
 #if THERMISTORHEATER == 1
 #define NUMTEMPS NUMTEMPS_1
 #define temptable temptable_1
@@ -240,6 +267,9 @@ const short temptable_5[NUMTEMPS_5][2] = {
 #elif THERMISTORHEATER == 5
 #define NUMTEMPS NUMTEMPS_5
 #define temptable temptable_5
+#elif THERMISTORHEATER == 6
+#define NUMTEMPS NUMTEMPS_6
+#define temptable temptable_6
 #elif defined HEATER_USES_THERMISTOR
 #error No heater thermistor table specified
 #endif
@@ -258,6 +288,9 @@ const short temptable_5[NUMTEMPS_5][2] = {
 #elif THERMISTORBED == 5
 #define BNUMTEMPS NUMTEMPS_5
 #define bedtemptable temptable_5
+#elif THERMISTORBED == 6
+#define BNUMTEMPS NUMTEMPS_6
+#define bedtemptable temptable_6
 #elif defined BED_USES_THERMISTOR
 #error No bed thermistor table specified
 #endif

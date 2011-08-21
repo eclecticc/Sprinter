@@ -19,12 +19,14 @@
 // 3 is mendel-parts thermistor
 // 4 is 10k thermistor
 // 5 is ParCan supplied 104GT-2 100K
-#define THERMISTORHEATER 1
-#define THERMISTORBED 1
+// 6 is MakerGear thermistor
+#define THERMISTORHEATER 6
+#define THERMISTORBED 6
 
 //// Calibration variables
+#define MICROSTEP_BY 2.0
 // X, Y, Z, E steps per unit - Metric Prusa Mendel with Wade extruder:
-float axis_steps_per_unit[] = {80, 80, 3200/1.25,700}; 
+float axis_steps_per_unit[] = {80.0/MICROSTEP_BY, 80.0/MICROSTEP_BY, 6700.0/MICROSTEP_BY,365.0}; 
 // Metric Prusa Mendel with Makergear geared stepper extruder:
 //float axis_steps_per_unit[] = {80,80,3200/1.25,1380}; 
 // MakerGear Hybrid Prusa Mendel:
@@ -32,9 +34,9 @@ float axis_steps_per_unit[] = {80, 80, 3200/1.25,700};
 //float axis_steps_per_unit[] = {104.987, 104.987, 4545.4544, 1487};
 
 //// Endstop Settings
-#define ENDSTOPPULLUPS 1 // Comment this out (using // at the start of the line) to disable the endstop pullup resistors
+//#define ENDSTOPPULLUPS 1 // Comment this out (using // at the start of the line) to disable the endstop pullup resistors
 // The pullups are needed if you directly connect a mechanical endswitch between the signal and ground pins.
-const bool ENDSTOPS_INVERTING = false; //set to true to invert the logic of the endstops
+const bool ENDSTOPS_INVERTING = true; //set to true to invert the logic of the endstops
 //If your axes are only moving in one direction, make sure the endstops are connected properly.
 //If your axes move in one direction ONLY when the endstops are triggered, set ENDSTOPS_INVERTING to true here
 
@@ -42,7 +44,7 @@ const bool ENDSTOPS_INVERTING = false; //set to true to invert the logic of the 
 #define BAUDRATE 115200
 
 // Comment out (using // at the start of the line) to disable SD support:
-#define SDSUPPORT 1
+//#define SDSUPPORT 1
 
 
 //// ADVANCED SETTINGS - to tweak parameters
@@ -58,12 +60,12 @@ const bool ENDSTOPS_INVERTING = false; //set to true to invert the logic of the 
 // Disables axis when it's not being used.
 const bool DISABLE_X = false;
 const bool DISABLE_Y = false;
-const bool DISABLE_Z = true;
+const bool DISABLE_Z = false;
 const bool DISABLE_E = false;
 
 // Inverting axis direction
 const bool INVERT_X_DIR = false;
-const bool INVERT_Y_DIR = false;
+const bool INVERT_Y_DIR = true;
 const bool INVERT_Z_DIR = true;
 const bool INVERT_E_DIR = false;
 
@@ -77,7 +79,7 @@ const bool min_software_endstops = false; //If true, axis won't move to coordina
 const bool max_software_endstops = true;  //If true, axis won't move to coordinates greater than the defined lengths below.
 const int X_MAX_LENGTH = 200;
 const int Y_MAX_LENGTH = 200;
-const int Z_MAX_LENGTH = 100;
+const int Z_MAX_LENGTH = 120;
 
 //// MOVEMENT SETTINGS
 const int NUM_AXIS = 4; // The axis order in all axis related arrays is X, Y, Z, E
@@ -99,8 +101,8 @@ bool axis_relative_modes[] = {false, false, false, false};
 //// Acceleration settings
 #ifdef RAMP_ACCELERATION
 // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
-float max_start_speed_units_per_second[] = {25.0,25.0,0.2,10.0};
-long max_acceleration_units_per_sq_second[] = {1000,1000,50,10000}; // X, Y, Z and E max acceleration in mm/s^2 for printing moves or retracts
+float max_start_speed_units_per_second[] = {30.0,30.0,0.2,100.0};
+long max_acceleration_units_per_sq_second[] = {750,750,50,10000}; // X, Y, Z and E max acceleration in mm/s^2 for printing moves or retracts
 long max_travel_acceleration_units_per_sq_second[] = {500,500,50,500}; // X, Y, Z max acceleration in mm/s^2 for travel moves
 #endif
 
