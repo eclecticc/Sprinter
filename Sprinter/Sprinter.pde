@@ -5,6 +5,7 @@
 #include "Configuration.h"
 #include "pins.h"
 #include "Sprinter.h"
+#include <util/delay.h>
 
 #ifdef SDSUPPORT
 #include "SdFat.h"
@@ -55,6 +56,7 @@
 // M190 - Wait for bed current temp to reach target temp.
 // M201 - Set max acceleration in units/s^2 for print moves (M201 X1000 Y1000)
 // M202 - Set max acceleration in units/s^2 for travel moves (M202 X1000 Y1000)
+// M240 - Trigger a camera to take a photograph
 
 
 //Stepper Movement Variables
@@ -339,6 +341,12 @@ void setup()
 
 #endif
 
+#ifdef PHOTOGRAPH_PIN
+#if (PHOTOGRAPH_PIN > -1)
+  SET_OUTPUT(PHOTOGRAPH_PIN);
+  WRITE(PHOTOGRAPH_PIN, LOW);
+#endif
+#endif
 }
 
 
@@ -903,6 +911,29 @@ inline void process_commands()
         }
         break;
       #endif
+      case 240: // M240
+        // Triggers a camera by emulating a Canon RC-1 Remote
+        // Data from: http://www.doc-diy.net/photo/rc-1_hacked/
+        #ifdef PHOTOGRAPH_PIN
+        #if (PHOTOGRAPH_PIN > -1)
+        #define NUM_PULSES 16
+        #define PULSE_LENGTH 0.01524
+        for(int i=0; i < NUM_PULSES; i++) {
+          WRITE(PHOTOGRAPH_PIN, HIGH);
+          _delay_ms(PULSE_LENGTH);
+          WRITE(PHOTOGRAPH_PIN, LOW);
+          _delay_ms(PULSE_LENGTH);
+        }
+        _delay_ms(7.33);
+        for(int i=0; i < NUM_PULSES; i++) {
+          WRITE(PHOTOGRAPH_PIN, HIGH);
+          _delay_ms(PULSE_LENGTH);
+          WRITE(PHOTOGRAPH_PIN, LOW);
+          _delay_ms(PULSE_LENGTH);
+        }
+        #endif
+        #endif
+        break;
     }
     
   }
